@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Taschenrechner mit deutschen Zahlen-Fakten</title>
+  <style>
+    body { display: flex; justify-content: center; align-items: flex-start; gap: 20px; padding: 20px; background: #f3f4f6; font-family: Arial, sans-serif; }
+    .calculator { background: #ffffff; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); width: 340px; }
+    .display { width: 100%; height: 60px; background: #f9fafb; border: none; border-radius: 10px; margin-bottom: 15px; text-align: right; font-size: 2rem; padding: 10px; box-sizing: border-box; }
+    .buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    button { height: 60px; border: none; border-radius: 10px; font-size: 1.2rem; cursor: pointer; transition: background 0.2s; }
+    button.operator { background: #f97316; color: white; }
+    button.operator:hover { background: #ea580c; }
+    button.function { background: #e5e7eb; }
+    button.function:hover { background: #d1d5db; }
+    button.number { background: #f3f4f6; }
+    button.number:hover { background: #e5e7eb; }
+    button.equal { background: #10b981; color: white; grid-column: span 2; }
+    button.equal:hover { background: #059669; }
+    .info-box { width: 300px; background: white; padding: 20px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="display" class="display" disabled>
+    <div class="buttons">
+      <button class="function" onclick="clearDisplay()">C</button>
+      <button class="function" onclick="deleteLast()">⌫</button>
+      <button class="function" onclick="append('%')">%</button>
+      <button class="operator" onclick="append('/')">÷</button>
+      <button class="number" onclick="append('7')">7</button>
+      <button class="number" onclick="append('8')">8</button>
+      <button class="number" onclick="append('9')">9</button>
+      <button class="operator" onclick="append('*')">×</button>
+      <button class="number" onclick="append('4')">4</button>
+      <button class="number" onclick="append('5')">5</button>
+      <button class="number" onclick="append('6')">6</button>
+      <button class="operator" onclick="append('-')">−</button>
+      <button class="number" onclick="append('1')">1</button>
+      <button class="number" onclick="append('2')">2</button>
+      <button class="number" onclick="append('3')">3</button>
+      <button class="operator" onclick="append('+')">+</button>
+      <button class="number" onclick="append('0')">0</button>
+      <button class="number" onclick="append('.')">.</button>
+      <button class="equal" onclick="calculate()">=</button>
+      <button class="function" onclick="append('(')">(</button>
+      <button class="function" onclick="append(')')">)</button>
+      <button class="function" onclick="append('**')">xʸ</button>
+      <button class="function" onclick="append('Math.sqrt(')">√</button>
+    </div>
+  </div>
+
+  <div class="info-box" id="infoBox">
+    Hier erscheinen Fakten zu deinem Ergebnis.
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const infoBox = document.getElementById('infoBox');
+
+    function append(value) { display.value += value; }
+    function clearDisplay() { display.value = ''; infoBox.innerHTML = 'Hier erscheinen Fakten zu deinem Ergebnis.'; }
+    function deleteLast() { display.value = display.value.slice(0, -1); }
+    function calculate() {
+      try {
+        const result = eval(display.value.replace(/%/g, '/100'));
+        display.value = result;
+        fetchFact(result);
+      } catch {
+        display.value = 'Error';
+      }
+    }
+
+    document.addEventListener('keydown', function(event) {
+      const key = event.key;
+      if (!isNaN(key)) { append(key); }
+      else if (['+', '-', '*', '/'].includes(key)) { append(key); }
+      else if (key === 'Enter' || key === '=') { calculate(); }
+      else if (key === 'Backspace') { deleteLast(); }
+      else if (key === 'Escape') { clearDisplay(); }
+      else if (key === '(' || key === ')') { append(key); }
+      else if (key === '.') { append('.'); }
+    });
+
+    const translation = {
+      "2 is the only even prime number.": "2 ist die einzige gerade Primzahl.",
+      "42 is the answer to the Ultimate Question of Life, the Universe, and Everything.": "42 ist die Antwort auf die ultimative Frage des Lebens, des Universums und allem.",
+      "300 is the number of Spartans at the Battle of Thermopylae.": "300 ist die Anzahl der Spartaner in der Schlacht bei den Thermopylen."
+      // Weitere Übersetzungen kannst du hier ergänzen
+    };
+
+    async function fetchFact(num) {
+      infoBox.innerHTML = "Lade Fakt zu <b>" + num + "</b>…";
+      try {
+        const resp = await fetch(`http://numbersapi.com/${num}`);
+        const text = await resp.text();
+        const deutsch = translation[text];
+        infoBox.innerHTML = `<b>Fakt zu ${num}:</b><p>${deutsch || text}</p>`;
+      } catch {
+        infoBox.innerHTML = "❌ Fehler beim Laden des Fakts.";
+      }
+    }
+  </script>
+</body>
+</html>
