@@ -31,6 +31,10 @@ struct PropertyDetailView: View {
                             if let year10 = metrics.amortizationSchedule.first(where: { $0.year == 10 }) {
                                 ResultRow(label: "Restschuld nach 10 Jahren", value: AppFormatter.money(year10.remainingDebt))
                             }
+                            if !metrics.amortizationSchedule.isEmpty {
+                                AmortizationChartView(schedule: metrics.amortizationSchedule)
+                                    .padding(.top, 4)
+                            }
                         }
 
                         ResultCard(title: "Mietrendite") {

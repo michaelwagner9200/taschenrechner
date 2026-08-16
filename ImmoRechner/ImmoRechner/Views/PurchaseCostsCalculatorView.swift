@@ -7,6 +7,8 @@ struct PurchaseCostsCalculatorView: View {
     @State private var notaryAndRegistryFeePercent: Double = 1.5
     @State private var brokerFeePercent: Double = 3.57
 
+    private var isPurchasePriceValid: Bool { purchasePrice > 0 }
+
     private var breakdown: PurchaseCostsBreakdown {
         Calculations.purchaseCosts(
             purchasePrice: purchasePrice,
@@ -42,12 +44,18 @@ struct PurchaseCostsCalculatorView: View {
                     Text("Richtwerte, Stand ca. 2024 – bitte die aktuellen Sätze für dein Bundesland und deinen Makler prüfen.")
                 }
 
-                Section("Ergebnis") {
-                    ResultRow(label: "Grunderwerbsteuer", value: AppFormatter.money(breakdown.propertyTransferTax))
-                    ResultRow(label: "Notar & Grundbuch", value: AppFormatter.money(breakdown.notaryAndRegistryFee))
-                    ResultRow(label: "Maklerprovision", value: AppFormatter.money(breakdown.brokerFee))
-                    ResultRow(label: "Kaufnebenkosten gesamt", value: AppFormatter.money(breakdown.total), emphasized: true)
-                    ResultRow(label: "Gesamtinvestition", value: AppFormatter.money(purchasePrice + breakdown.total), emphasized: true)
+                if !isPurchasePriceValid {
+                    Section {
+                        ValidationBanner(message: "Bitte einen Kaufpreis größer als 0 € eingeben.")
+                    }
+                } else {
+                    Section("Ergebnis") {
+                        ResultRow(label: "Grunderwerbsteuer", value: AppFormatter.money(breakdown.propertyTransferTax))
+                        ResultRow(label: "Notar & Grundbuch", value: AppFormatter.money(breakdown.notaryAndRegistryFee))
+                        ResultRow(label: "Maklerprovision", value: AppFormatter.money(breakdown.brokerFee))
+                        ResultRow(label: "Kaufnebenkosten gesamt", value: AppFormatter.money(breakdown.total), emphasized: true)
+                        ResultRow(label: "Gesamtinvestition", value: AppFormatter.money(purchasePrice + breakdown.total), emphasized: true)
+                    }
                 }
             }
             .navigationTitle("Kaufnebenkosten")

@@ -7,6 +7,8 @@ struct RentalYieldCalculatorView: View {
     @State private var nonRecoverableCostsMonthly: Double = 50
     @State private var maintenanceReserveMonthly: Double = 80
 
+    private var isPurchasePriceValid: Bool { purchasePrice > 0 }
+
     private var totalInvestment: Double {
         purchasePrice + purchaseCostsTotal
     }
@@ -41,10 +43,16 @@ struct RentalYieldCalculatorView: View {
                     NumberInputRow(label: "Instandhaltungsrücklage / Monat", value: $maintenanceReserveMonthly)
                 }
 
-                Section("Ergebnis") {
-                    ResultRow(label: "Gesamtinvestition", value: AppFormatter.money(totalInvestment))
-                    ResultRow(label: "Bruttomietrendite", value: AppFormatter.percentString(grossYield), emphasized: true)
-                    ResultRow(label: "Nettomietrendite", value: AppFormatter.percentString(netYield), emphasized: true)
+                if !isPurchasePriceValid {
+                    Section {
+                        ValidationBanner(message: "Bitte einen Kaufpreis größer als 0 € eingeben.")
+                    }
+                } else {
+                    Section("Ergebnis") {
+                        ResultRow(label: "Gesamtinvestition", value: AppFormatter.money(totalInvestment))
+                        ResultRow(label: "Bruttomietrendite", value: AppFormatter.percentString(grossYield), emphasized: true)
+                        ResultRow(label: "Nettomietrendite", value: AppFormatter.percentString(netYield), emphasized: true)
+                    }
                 }
             }
             .navigationTitle("Mietrendite")

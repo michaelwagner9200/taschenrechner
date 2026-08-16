@@ -13,6 +13,10 @@ struct PropertyFormView: View {
         _property = State(initialValue: property ?? .blank())
     }
 
+    private var isValid: Bool {
+        !property.name.trimmingCharacters(in: .whitespaces).isEmpty && property.purchasePrice > 0
+    }
+
     var body: some View {
         NavigationStack {
             Form {
@@ -20,7 +24,7 @@ struct PropertyFormView: View {
                     TextField("Name (z. B. Musterstraße 12)", text: $property.name)
                 }
 
-                Section("Kaufdaten") {
+                Section {
                     NumberInputRow(label: "Kaufpreis", value: $property.purchasePrice)
                     NumberInputRow(label: "Wohnfläche", value: $property.livingAreaSquareMeters, suffix: "m²")
                     Picker("Bundesland", selection: $property.germanState) {
@@ -30,6 +34,12 @@ struct PropertyFormView: View {
                     }
                     NumberInputRow(label: "Notar & Grundbuch", value: $property.notaryAndRegistryFeePercent, suffix: "%")
                     NumberInputRow(label: "Maklerprovision", value: $property.brokerFeePercent, suffix: "%")
+                } header: {
+                    Text("Kaufdaten")
+                } footer: {
+                    if property.purchasePrice <= 0 {
+                        ValidationBanner(message: "Bitte einen Kaufpreis größer als 0 € eingeben.")
+                    }
                 }
 
                 Section("Finanzierung") {
@@ -60,7 +70,7 @@ struct PropertyFormView: View {
                         store.addOrUpdate(property)
                         dismiss()
                     }
-                    .disabled(property.name.trimmingCharacters(in: .whitespaces).isEmpty)
+                    .disabled(!isValid)
                 }
             }
         }
