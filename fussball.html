@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fußball Spiel</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: #f3f4f6;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+  }
+  h1 { margin: 0; color: #111827; }
+  .scoreboard {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: #ffffff;
+    padding: 12px 24px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    font-size: 1.3rem;
+    font-weight: bold;
+  }
+  .scoreboard .team-du { color: #2563eb; }
+  .scoreboard .team-cpu { color: #dc2626; }
+  .scoreboard .time { color: #111827; font-variant-numeric: tabular-nums; }
+  canvas {
+    background: #16a34a;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    touch-action: none;
+  }
+  .controls {
+    background: #ffffff;
+    padding: 14px 20px;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    font-size: 0.9rem;
+    text-align: center;
+    max-width: 640px;
+  }
+  .controls b { color: #f97316; }
+  button.restart {
+    margin-top: 6px;
+    border: none;
+    background: #f97316;
+    color: white;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button.restart:hover { background: #ea580c; }
+  #overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  #overlay .box {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 16px;
+    text-align: center;
+  }
+  #overlay h2 { margin-top: 0; }
+</style>
+</head>
+<body>
+  <h1>⚽ Fußball</h1>
+  <div class="scoreboard">
+    <span class="team-du">Du: <span id="scoreDu">0</span></span>
+    <span class="time" id="time">02:00</span>
+    <span class="team-cpu">CPU: <span id="scoreCpu">0</span></span>
+  </div>
+
+  <canvas id="field" width="800" height="500"></canvas>
+
+  <div class="controls">
+    Bewege dich mit <b>Pfeiltasten</b> oder <b>WASD</b>, schieße mit <b>Leertaste</b>.
+    Erziele Tore im rechten Tor, verteidige das linke Tor!
+    <br>
+    <button class="restart" onclick="restartGame()">Neustart</button>
+  </div>
+
+  <div id="overlay">
+    <div class="box">
+      <h2 id="resultText"></h2>
+      <button class="restart" onclick="restartGame()">Nochmal spielen</button>
+    </div>
+  </div>
+
+<script>
+const canvas = document.getElementById('field');
+const ctx = canvas.getContext('2d');
+const W = canvas.width, H = canvas.height;
+const GOAL_HEIGHT = 140;
+const GOAL_TOP = H / 2 - GOAL_HEIGHT / 2;
+const GOAL_BOTTOM = H / 2 + GOAL_HEIGHT / 2;
+
+const scoreDuEl = document.getElementById('scoreDu');
+const scoreCpuEl = document.getElementById('scoreCpu');
+const timeEl = document.getElementById('time');
+const overlay = document.getElementById('overlay');
+const resultText = document.getElementById('resultText');
+
+let scoreDu = 0, scoreCpu = 0;
+let timeLeft = 120;
+let gameOver = false;
+let timerInterval = null;
+
+const player = { x: 200, y: H / 2, r: 16, speed: 3.2, color: '#2563eb', facing: { x: 1, y: 0 } };
+const cpu = { x: 600, y: H / 2, r: 16, speed: 2.4, color: '#dc2626' };
+const ball = { x: W / 2, y: H / 2, r: 10, vx: 0, vy: 0, friction: 0.985 };
+
+const keys = {};
+document.addEventListener('keydown', e => {
+  keys[e.key.toLowerCase()] = true;
+  if (e.key === ' ') e.preventDefault();
+});
+document.addEventListener('keyup', e => { keys[e.key.toLowerCase()] = false; });
+
+function resetPositions(kickoffFor) {
+  player.x = 200; player.y = H / 2;
+  cpu.x = 600; cpu.y = H / 2;
+  ball.x = W / 2; ball.y = H / 2;
+  ball.vx = 0; ball.vy = 0;
+  if (kickoffFor === 'cpu') ball.vx = -1.5;
+}
+
+function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+function updatePlayer() {
+  let dx = 0, dy = 0;
+  if (keys['arrowup'] || keys['w']) dy -= 1;
+  if (keys['arrowdown'] || keys['s']) dy += 1;
+  if (keys['arrowleft'] || keys['a']) dx -= 1;
+  if (keys['arrowright'] || keys['d']) dx += 1;
+
+  if (dx !== 0 || dy !== 0) {
+    const len = Math.hypot(dx, dy);
+    dx /= len; dy /= len;
+    player.facing = { x: dx, y: dy };
+    player.x += dx * player.speed;
+    player.y += dy * player.speed;
+  }
+
+  player.x = clamp(player.x, player.r, W - player.r);
+  player.y = clamp(player.y, player.r, H - player.r);
+
+  if (keys[' ']) {
+    const dist = Math.hypot(ball.x - player.x, ball.y - player.y);
+    if (dist < player.r + ball.r + 6) {
+      ball.vx += player.facing.x * 8;
+      ball.vy += player.facing.y * 8;
+    }
+  }
+}
+
+function updateCpu() {
+  // CPU verteidigt das rechte Tor und greift das linke Tor an
+  let targetX, targetY;
+  if (ball.x > W / 2 - 60) {
+    targetX = ball.x;
+    targetY = ball.y;
+  } else {
+    // Stelle sich zwischen Ball und eigenem Tor
+    targetX = 620;
+    targetY = clamp(ball.y, GOAL_TOP + 20, GOAL_BOTTOM - 20);
+  }
+
+  const dx = targetX - cpu.x;
+  const dy = targetY - cpu.y;
+  const dist = Math.hypot(dx, dy);
+  if (dist > 2) {
+    cpu.x += (dx / dist) * cpu.speed;
+    cpu.y += (dy / dist) * cpu.speed;
+  }
+  cpu.x = clamp(cpu.x, cpu.r, W - cpu.r);
+  cpu.y = clamp(cpu.y, cpu.r, H - cpu.r);
+
+  const distToBall = Math.hypot(ball.x - cpu.x, ball.y - cpu.y);
+  if (distToBall < cpu.r + ball.r + 6) {
+    const kdx = (ball.x - 200) - cpu.x;
+    const kdy = (H / 2) - cpu.y;
+    const klen = Math.hypot(kdx, kdy) || 1;
+    ball.vx += (kdx / klen) * 6;
+    ball.vy += (kdy / klen) * 6;
+  }
+}
+
+function resolveEntityBallCollision(entity) {
+  const dx = ball.x - entity.x;
+  const dy = ball.y - entity.y;
+  const dist = Math.hypot(dx, dy);
+  const minDist = entity.r + ball.r;
+  if (dist < minDist && dist > 0) {
+    const overlap = minDist - dist;
+    const nx = dx / dist, ny = dy / dist;
+    ball.x += nx * overlap;
+    ball.y += ny * overlap;
+    ball.vx += nx * 1.5;
+    ball.vy += ny * 1.5;
+  }
+}
+
+function updateBall() {
+  ball.x += ball.vx;
+  ball.y += ball.vy;
+  ball.vx *= ball.friction;
+  ball.vy *= ball.friction;
+
+  if (ball.y - ball.r < 0) { ball.y = ball.r; ball.vy *= -0.8; }
+  if (ball.y + ball.r > H) { ball.y = H - ball.r; ball.vy *= -0.8; }
+
+  const inGoalRange = ball.y > GOAL_TOP && ball.y < GOAL_BOTTOM;
+
+  if (ball.x - ball.r < 0) {
+    if (inGoalRange) {
+      scoreCpu++;
+      onGoal();
+    } else {
+      ball.x = ball.r; ball.vx *= -0.8;
+    }
+  }
+  if (ball.x + ball.r > W) {
+    if (inGoalRange) {
+      scoreDu++;
+      onGoal();
+    } else {
+      ball.x = W - ball.r; ball.vx *= -0.8;
+    }
+  }
+
+  resolveEntityBallCollision(player);
+  resolveEntityBallCollision(cpu);
+}
+
+function onGoal() {
+  scoreDuEl.textContent = scoreDu;
+  scoreCpuEl.textContent = scoreCpu;
+  resetPositions();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // Feld
+  ctx.fillStyle = '#16a34a';
+  ctx.fillRect(0, 0, W, H);
+  ctx.strokeStyle = 'rgba(255,255,255,0.8)';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(10, 10, W - 20, H - 20);
+  ctx.beginPath();
+  ctx.moveTo(W / 2, 10);
+  ctx.lineTo(W / 2, H - 10);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(W / 2, H / 2, 60, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Tore
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.fillRect(0, GOAL_TOP, 12, GOAL_HEIGHT);
+  ctx.fillRect(W - 12, GOAL_TOP, 12, GOAL_HEIGHT);
+  ctx.strokeStyle = 'white';
+  ctx.strokeRect(0, GOAL_TOP, 12, GOAL_HEIGHT);
+  ctx.strokeRect(W - 12, GOAL_TOP, 12, GOAL_HEIGHT);
+
+  // Spieler
+  drawCircle(player.x, player.y, player.r, player.color);
+  drawCircle(cpu.x, cpu.y, cpu.r, cpu.color);
+
+  // Ball
+  drawCircle(ball.x, ball.y, ball.r, '#ffffff');
+  ctx.strokeStyle = '#111827';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+function drawCircle(x, y, r, color) {
+  ctx.beginPath();
+  ctx.arc(x, y, r, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+}
+
+function loop() {
+  if (gameOver) return;
+  updatePlayer();
+  updateCpu();
+  updateBall();
+  draw();
+  requestAnimationFrame(loop);
+}
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    if (gameOver) return;
+    timeLeft--;
+    const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+    const s = String(timeLeft % 60).padStart(2, '0');
+    timeEl.textContent = `${m}:${s}`;
+    if (timeLeft <= 0) {
+      endGame();
+    }
+  }, 1000);
+}
+
+function endGame() {
+  gameOver = true;
+  clearInterval(timerInterval);
+  let text;
+  if (scoreDu > scoreCpu) text = `🎉 Du gewinnst ${scoreDu}:${scoreCpu}!`;
+  else if (scoreDu < scoreCpu) text = `😢 Du verlierst ${scoreDu}:${scoreCpu}.`;
+  else text = `🤝 Unentschieden ${scoreDu}:${scoreCpu}.`;
+  resultText.textContent = text;
+  overlay.style.display = 'flex';
+}
+
+function restartGame() {
+  scoreDu = 0; scoreCpu = 0;
+  scoreDuEl.textContent = 0; scoreCpuEl.textContent = 0;
+  timeLeft = 120;
+  timeEl.textContent = '02:00';
+  gameOver = false;
+  overlay.style.display = 'none';
+  resetPositions();
+  startTimer();
+  loop();
+}
+
+restartGame();
+</script>
+</body>
+</html>
