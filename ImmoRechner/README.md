@@ -7,7 +7,10 @@ Eine iPhone-App (SwiftUI) mit Rechnern rund um Immobilien-Investments:
 - **Kaufnebenkosten** – Grunderwerbsteuer je Bundesland, Notar, Grundbuch, Makler
 - **Cashflow** – monatlicher Überschuss oder Defizit
 - **Objekte** – Immobilien lokal speichern; alle vier Kennzahlen werden automatisch
-  aus den gespeicherten Daten berechnet und als Dashboard angezeigt
+  aus den gespeicherten Daten berechnet und als Dashboard angezeigt, inklusive
+  Kaufpreis pro m² und Tilgungsplan-Chart
+- **Vergleichen** – über "Bearbeiten" mehrere Objekte auswählen und in einer
+  Tabelle nebeneinander vergleichen
 
 Alles läuft komplett lokal auf dem Gerät (kein Server, kein Account nötig).
 Gespeicherte Objekte landen als JSON-Datei im App-Sandbox-Verzeichnis.
@@ -53,6 +56,8 @@ ImmoRechner/
     │   ├── PropertiesListView.swift
     │   ├── PropertyFormView.swift
     │   ├── PropertyDetailView.swift
+    │   ├── PropertyComparisonView.swift
+    │   ├── AmortizationChartView.swift
     │   └── Components.swift        # Wiederverwendbare UI-Bausteine
     ├── Utilities/
     │   ├── PropertyStore.swift     # Lokale JSON-Persistenz

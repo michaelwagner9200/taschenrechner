@@ -23,6 +23,8 @@
 		0FCD1E63786A68CC9BE45336 /* PropertyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2603815CD7A181F5FF50DF71 /* PropertyDetailView.swift */; };
 		317E006A2CAAC35636BF4C52 /* PropertiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E047D3E9D1142F1EFAA425 /* PropertiesListView.swift */; };
 		AC20AED8D4EAAA7C96B2839F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4E0CC1B70F26E971D7A4484 /* Assets.xcassets */; };
+		C6050B4C57893BC78095D4BF /* AmortizationChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F4343469B79FD6591DFCD56 /* AmortizationChartView.swift */; };
+		6CF9B7CB5D93A7AB9AA67DB0 /* PropertyComparisonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB53E934D03CC773E798A3E /* PropertyComparisonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		C4E0CC1B70F26E971D7A4484 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6D9E2F30F3DCBDD234274CBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		436CF9EC8B5F797ADD7C6DAF /* ImmoRechner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImmoRechner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3F4343469B79FD6591DFCD56 /* AmortizationChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmortizationChartView.swift; sourceTree = "<group>"; };
+		3DB53E934D03CC773E798A3E /* PropertyComparisonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyComparisonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 				812E1448D44E4C749689F478 /* PropertyFormView.swift */,
 				2603815CD7A181F5FF50DF71 /* PropertyDetailView.swift */,
 				77E047D3E9D1142F1EFAA425 /* PropertiesListView.swift */,
+				3F4343469B79FD6591DFCD56 /* AmortizationChartView.swift */,
+				3DB53E934D03CC773E798A3E /* PropertyComparisonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -215,6 +221,8 @@
 				D568DB276270D9AEF4E6250A /* PropertyFormView.swift in Sources */,
 				0FCD1E63786A68CC9BE45336 /* PropertyDetailView.swift in Sources */,
 				317E006A2CAAC35636BF4C52 /* PropertiesListView.swift in Sources */,
+				C6050B4C57893BC78095D4BF /* AmortizationChartView.swift in Sources */,
+				6CF9B7CB5D93A7AB9AA67DB0 /* PropertyComparisonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

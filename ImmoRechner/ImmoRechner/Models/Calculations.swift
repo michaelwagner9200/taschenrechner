@@ -28,6 +28,7 @@ struct PropertyMetrics {
     let grossYieldPercent: Double
     let netYieldPercent: Double
     let monthlyCashflow: Double
+    let pricePerSquareMeter: Double
 }
 
 /// Reine, zustandslose Berechnungsfunktionen für alle Rechner der App.
@@ -114,6 +115,13 @@ enum Calculations {
         return netIncome / totalInvestment * 100
     }
 
+    // MARK: - Kaufpreis pro Quadratmeter
+
+    static func pricePerSquareMeter(purchasePrice: Double, livingAreaSquareMeters: Double) -> Double {
+        guard livingAreaSquareMeters > 0 else { return 0 }
+        return purchasePrice / livingAreaSquareMeters
+    }
+
     // MARK: - Cashflow
 
     static func monthlyCashflow(
@@ -168,6 +176,11 @@ enum Calculations {
             maintenanceReserveMonthly: property.maintenanceReserveMonthly
         )
 
+        let pricePerSqm = pricePerSquareMeter(
+            purchasePrice: property.purchasePrice,
+            livingAreaSquareMeters: property.livingAreaSquareMeters
+        )
+
         return PropertyMetrics(
             purchaseCosts: costs,
             totalInvestment: totalInvestment,
@@ -176,7 +189,8 @@ enum Calculations {
             amortizationSchedule: schedule,
             grossYieldPercent: grossYield,
             netYieldPercent: netYield,
-            monthlyCashflow: cashflow
+            monthlyCashflow: cashflow,
+            pricePerSquareMeter: pricePerSqm
         )
     }
 }

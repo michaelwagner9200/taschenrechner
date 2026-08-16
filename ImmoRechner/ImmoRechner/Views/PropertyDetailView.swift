@@ -17,6 +17,12 @@ struct PropertyDetailView: View {
                 let metrics = property.metrics
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
+                        ResultCard(title: "Objekt") {
+                            ResultRow(label: "Kaufpreis", value: AppFormatter.money(property.purchasePrice))
+                            ResultRow(label: "Wohnfläche", value: "\(Int(property.livingAreaSquareMeters)) m²")
+                            ResultRow(label: "Kaufpreis / m²", value: AppFormatter.money(metrics.pricePerSquareMeter), emphasized: true)
+                        }
+
                         ResultCard(title: "Kaufnebenkosten") {
                             ResultRow(label: "Grunderwerbsteuer", value: AppFormatter.money(metrics.purchaseCosts.propertyTransferTax))
                             ResultRow(label: "Notar & Grundbuch", value: AppFormatter.money(metrics.purchaseCosts.notaryAndRegistryFee))
