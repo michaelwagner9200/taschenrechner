@@ -1,0 +1,423 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2140174CF8BAB3314762411C /* ImmoRechnerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B323517285BA453BECC52B4 /* ImmoRechnerApp.swift */; };
+		D5731586CEB776DD070E8203 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D0FA739BDAAAC065A89DD96 /* ContentView.swift */; };
+		25FA0C095F04E75C85310495 /* GermanState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7C69343E3444CC1C74951B /* GermanState.swift */; };
+		F2D7BD6B2FF4D8E3AD46ED52 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D3C3D146E294AC79CC01B5F /* Property.swift */; };
+		18817ED4972D78F976EC5EB7 /* Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75CA4F166841852DC85C4C2E /* Calculations.swift */; };
+		7E04D144F6E27DBDC6CC7A1A /* CurrencyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E05E2EFF6FB724EA39481A /* CurrencyFormatter.swift */; };
+		12495DF2A451FB56CD078C97 /* PropertyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A434E0E34EC363F9609F76F5 /* PropertyStore.swift */; };
+		FC4CC8E16FC47405D21D6439 /* Components.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDEFAF35C07CF80563FADDC /* Components.swift */; };
+		F69F583AB7332023459EC1A6 /* FinancingCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614DB7F594AABB396DDF3A51 /* FinancingCalculatorView.swift */; };
+		D0969B992DCB7DE5CD8D4789 /* RentalYieldCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9B722D41344E86DE84F378 /* RentalYieldCalculatorView.swift */; };
+		F81AD65881C360F983A82A42 /* PurchaseCostsCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9264B4F1BF50A710A51048 /* PurchaseCostsCalculatorView.swift */; };
+		7DBD2BC1C66A96A4B085461D /* CashflowCalculatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F771F52F5786E2E6DFE1371C /* CashflowCalculatorView.swift */; };
+		D568DB276270D9AEF4E6250A /* PropertyFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812E1448D44E4C749689F478 /* PropertyFormView.swift */; };
+		0FCD1E63786A68CC9BE45336 /* PropertyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2603815CD7A181F5FF50DF71 /* PropertyDetailView.swift */; };
+		317E006A2CAAC35636BF4C52 /* PropertiesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77E047D3E9D1142F1EFAA425 /* PropertiesListView.swift */; };
+		AC20AED8D4EAAA7C96B2839F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4E0CC1B70F26E971D7A4484 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7B323517285BA453BECC52B4 /* ImmoRechnerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImmoRechnerApp.swift; sourceTree = "<group>"; };
+		0D0FA739BDAAAC065A89DD96 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AC7C69343E3444CC1C74951B /* GermanState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GermanState.swift; sourceTree = "<group>"; };
+		4D3C3D146E294AC79CC01B5F /* Property.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		75CA4F166841852DC85C4C2E /* Calculations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculations.swift; sourceTree = "<group>"; };
+		D9E05E2EFF6FB724EA39481A /* CurrencyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyFormatter.swift; sourceTree = "<group>"; };
+		A434E0E34EC363F9609F76F5 /* PropertyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyStore.swift; sourceTree = "<group>"; };
+		3EDEFAF35C07CF80563FADDC /* Components.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Components.swift; sourceTree = "<group>"; };
+		614DB7F594AABB396DDF3A51 /* FinancingCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinancingCalculatorView.swift; sourceTree = "<group>"; };
+		AB9B722D41344E86DE84F378 /* RentalYieldCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RentalYieldCalculatorView.swift; sourceTree = "<group>"; };
+		6B9264B4F1BF50A710A51048 /* PurchaseCostsCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseCostsCalculatorView.swift; sourceTree = "<group>"; };
+		F771F52F5786E2E6DFE1371C /* CashflowCalculatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashflowCalculatorView.swift; sourceTree = "<group>"; };
+		812E1448D44E4C749689F478 /* PropertyFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyFormView.swift; sourceTree = "<group>"; };
+		2603815CD7A181F5FF50DF71 /* PropertyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailView.swift; sourceTree = "<group>"; };
+		77E047D3E9D1142F1EFAA425 /* PropertiesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesListView.swift; sourceTree = "<group>"; };
+		C4E0CC1B70F26E971D7A4484 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6D9E2F30F3DCBDD234274CBC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		436CF9EC8B5F797ADD7C6DAF /* ImmoRechner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImmoRechner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84942075F24F9E4E566DC3BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+
+		775E6A0E5100F68BDB2D1868 = {
+			isa = PBXGroup;
+			children = (
+				06C5B09D0A5DD65C18E58D6B /* ImmoRechner */,
+				1EA6E223138F325B2B096151 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1EA6E223138F325B2B096151 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				436CF9EC8B5F797ADD7C6DAF /* ImmoRechner.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		06C5B09D0A5DD65C18E58D6B /* ImmoRechner */ = {
+			isa = PBXGroup;
+			children = (
+				7B323517285BA453BECC52B4 /* ImmoRechnerApp.swift */,
+				0D0FA739BDAAAC065A89DD96 /* ContentView.swift */,
+				857217D58354FF579AE479CB /* Models */,
+				C2C60CD2CB5326FDB4DC2F50 /* Views */,
+				BAB64D5F1D100FE2B184E27D /* Utilities */,
+				C4E0CC1B70F26E971D7A4484 /* Assets.xcassets */,
+				29D787AF059E9FE26ECB0B44 /* Preview Content */,
+			);
+			path = ImmoRechner;
+			sourceTree = "<group>";
+		};
+		857217D58354FF579AE479CB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AC7C69343E3444CC1C74951B /* GermanState.swift */,
+				4D3C3D146E294AC79CC01B5F /* Property.swift */,
+				75CA4F166841852DC85C4C2E /* Calculations.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C2C60CD2CB5326FDB4DC2F50 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3EDEFAF35C07CF80563FADDC /* Components.swift */,
+				614DB7F594AABB396DDF3A51 /* FinancingCalculatorView.swift */,
+				AB9B722D41344E86DE84F378 /* RentalYieldCalculatorView.swift */,
+				6B9264B4F1BF50A710A51048 /* PurchaseCostsCalculatorView.swift */,
+				F771F52F5786E2E6DFE1371C /* CashflowCalculatorView.swift */,
+				812E1448D44E4C749689F478 /* PropertyFormView.swift */,
+				2603815CD7A181F5FF50DF71 /* PropertyDetailView.swift */,
+				77E047D3E9D1142F1EFAA425 /* PropertiesListView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BAB64D5F1D100FE2B184E27D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D9E05E2EFF6FB724EA39481A /* CurrencyFormatter.swift */,
+				A434E0E34EC363F9609F76F5 /* PropertyStore.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		29D787AF059E9FE26ECB0B44 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				6D9E2F30F3DCBDD234274CBC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		21D73A2502FFC62603E9EEB9 /* ImmoRechner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9DAF4E00B07896DE9B02DB61 /* Build configuration list for PBXNativeTarget "ImmoRechner" */;
+			buildPhases = (
+				4C9A6E2722CF6733F05F338E /* Sources */,
+				84942075F24F9E4E566DC3BD /* Frameworks */,
+				1751B9A6A1224F85942E62EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ImmoRechner;
+			productName = ImmoRechner;
+			productReference = 436CF9EC8B5F797ADD7C6DAF /* ImmoRechner.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E1F733E27842C1F989259AFC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					21D73A2502FFC62603E9EEB9 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = C5B60D96C8E65D34B83177A8 /* Build configuration list for PBXProject "ImmoRechner" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = de;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				de,
+				Base,
+			);
+			mainGroup = 775E6A0E5100F68BDB2D1868;
+			productRefGroup = 1EA6E223138F325B2B096151 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				21D73A2502FFC62603E9EEB9 /* ImmoRechner */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1751B9A6A1224F85942E62EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AC20AED8D4EAAA7C96B2839F /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4C9A6E2722CF6733F05F338E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2140174CF8BAB3314762411C /* ImmoRechnerApp.swift in Sources */,
+				D5731586CEB776DD070E8203 /* ContentView.swift in Sources */,
+				25FA0C095F04E75C85310495 /* GermanState.swift in Sources */,
+				F2D7BD6B2FF4D8E3AD46ED52 /* Property.swift in Sources */,
+				18817ED4972D78F976EC5EB7 /* Calculations.swift in Sources */,
+				7E04D144F6E27DBDC6CC7A1A /* CurrencyFormatter.swift in Sources */,
+				12495DF2A451FB56CD078C97 /* PropertyStore.swift in Sources */,
+				FC4CC8E16FC47405D21D6439 /* Components.swift in Sources */,
+				F69F583AB7332023459EC1A6 /* FinancingCalculatorView.swift in Sources */,
+				D0969B992DCB7DE5CD8D4789 /* RentalYieldCalculatorView.swift in Sources */,
+				F81AD65881C360F983A82A42 /* PurchaseCostsCalculatorView.swift in Sources */,
+				7DBD2BC1C66A96A4B085461D /* CashflowCalculatorView.swift in Sources */,
+				D568DB276270D9AEF4E6250A /* PropertyFormView.swift in Sources */,
+				0FCD1E63786A68CC9BE45336 /* PropertyDetailView.swift in Sources */,
+				317E006A2CAAC35636BF4C52 /* PropertiesListView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BD7929FF4D7BB211B1F8D507 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		702EACCB73F8631E4311E21A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		8C80BEAD2DF035F5BC84D0FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ImmoRechner/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Immo Rechner";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.ImmoRechner";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		E21F2E61BBC97E74F2466CF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ImmoRechner/Preview Content\"";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Immo Rechner";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.ImmoRechner";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C5B60D96C8E65D34B83177A8 /* Build configuration list for PBXProject "ImmoRechner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD7929FF4D7BB211B1F8D507 /* Debug */,
+				702EACCB73F8631E4311E21A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9DAF4E00B07896DE9B02DB61 /* Build configuration list for PBXNativeTarget "ImmoRechner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C80BEAD2DF035F5BC84D0FB /* Debug */,
+				E21F2E61BBC97E74F2466CF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E1F733E27842C1F989259AFC /* Project object */;
+}
