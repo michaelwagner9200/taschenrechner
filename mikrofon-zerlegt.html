@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Mikrofon zerlegt</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+  /* Layout: technische Explosionszeichnung links, Stückliste mit Positionsnummern rechts (mobil gestapelt) */
+  :root {
+    --paper: #edf0f2; --surface: #f8f9fa; --ink: #1b2228; --muted: #56616b; --line: #c5ccd2; --grid: #dde2e6;
+    --accent: #d9580a; --accent-ink: #ffffff;
+    --steel: #9aa5ae; --steel-hi: #e4e8eb; --steel-dark: #4a545c;
+    --foam: #2f353a; --foam-dot: #4a5259;
+    --copper: #c86e2c; --copper-dark: #7d3f14; --membrane: #d9b85c;
+    --magnet: #3a4046; --pole: #78828a; --rubber: #24282c; --rubber-hi: #444b51; --gap: #15191c;
+    --font-display: "IBM Plex Sans Condensed", "Arial Narrow", Arial, sans-serif;
+    --font-body: "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #11161a; --surface: #192025; --ink: #e5e9ec; --muted: #9aa5ae; --line: #2d363d; --grid: #1b2227;
+      --accent: #ff8a3d; --accent-ink: #1b1006;
+      --steel: #8d99a3; --steel-hi: #cfd6db; --steel-dark: #66727b;
+      --foam: #3c434a; --foam-dot: #59626a;
+      --copper: #d97c38; --copper-dark: #8a4719; --membrane: #e3c46a;
+      --magnet: #4a5259; --pole: #858f97; --rubber: #343a3f; --rubber-hi: #545c62; --gap: #0a0d0f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #11161a; --surface: #192025; --ink: #e5e9ec; --muted: #9aa5ae; --line: #2d363d; --grid: #1b2227;
+    --accent: #ff8a3d; --accent-ink: #1b1006;
+    --steel: #8d99a3; --steel-hi: #cfd6db; --steel-dark: #66727b;
+    --foam: #3c434a; --foam-dot: #59626a;
+    --copper: #d97c38; --copper-dark: #8a4719; --membrane: #e3c46a;
+    --magnet: #4a5259; --pole: #858f97; --rubber: #343a3f; --rubber-hi: #545c62; --gap: #0a0d0f;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 15px/1.55 var(--font-body);
+    padding-block: 24px 40px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; display: grid; gap: 20px; }
+
+  header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 12px 24px; }
+  h1 { font: 700 clamp(1.8rem, 4vw, 2.6rem)/1.05 var(--font-display); margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+  .lede { margin: 6px 0 0; color: var(--muted); max-width: 60ch; }
+
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .btn {
+    font: 600 1rem var(--font-display); letter-spacing: 0.02em;
+    background: var(--accent); color: var(--accent-ink); border: 0; border-radius: 6px;
+    padding: 10px 18px; cursor: pointer; min-width: 150px;
+  }
+  .btn:hover { filter: brightness(1.08); }
+  .btn:focus-visible, .parts button:focus-visible, .check input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  .check { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); cursor: pointer; user-select: none; }
+  .check input { accent-color: var(--accent); width: 16px; height: 16px; }
+
+  main { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+  @media (max-width: 820px) { main { grid-template-columns: minmax(0, 1fr); } }
+
+  figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  figure {
+    background-color: var(--surface);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  figure svg { display: block; width: 100%; height: auto; max-height: 86vh; margin: 0 auto; }
+  figcaption {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px;
+    border-top: 1px solid var(--line); padding: 8px 14px; background: var(--surface);
+    font: 500 0.72rem var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em;
+  }
+
+  /* SVG-Füllungen über Tokens */
+  .f-steel { fill: var(--steel); } .f-steel-hi { fill: var(--steel-hi); } .f-steel-dark { fill: var(--steel-dark); }
+  .f-foam { fill: var(--foam); } .f-foam-dot { fill: var(--foam-dot); }
+  .f-copper { fill: var(--copper); } .f-membrane { fill: var(--membrane); fill-opacity: 0.85; }
+  .f-magnet { fill: var(--magnet); } .f-pole { fill: var(--pole); } .f-rubber { fill: var(--rubber); }
+  .f-gap { fill: var(--gap); } .f-accent { fill: var(--accent); } .f-surface { fill: var(--surface); }
+  .s-dark { stroke: var(--steel-dark); } .s-copper { stroke: var(--copper-dark); } .s-rubber { stroke: var(--rubber-hi); }
+  .s-grid { stroke: var(--grid); } .s-ink { stroke: var(--ink); }
+
+  /* Animation der Bauteile */
+  .part {
+    --ex: 0; --ey: 0;
+    transform: translate(140px, 178px);
+    transition: transform 1.15s cubic-bezier(.7, 0, .25, 1) var(--da, 0ms), opacity .25s;
+    cursor: pointer;
+  }
+  .exploded .part {
+    transform: translate(calc(var(--ex) * 1px), calc(var(--ey) * 1px));
+    transition-delay: var(--de, 0ms), 0ms;
+  }
+  .label { opacity: 0; transition: opacity .25s; pointer-events: none; }
+  .exploded .label { opacity: 1; transition: opacity .45s 1.15s; pointer-events: auto; cursor: pointer; }
+  .label line { stroke: var(--ink); stroke-width: 1.2; }
+  .label .dot { fill: var(--ink); }
+  .label .balloon { fill: var(--surface); stroke: var(--ink); stroke-width: 1.4; }
+  .label .no { font: 500 13px var(--font-mono); fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+  .label .ttl { font: 600 19px var(--font-display); fill: var(--ink); }
+  .label .sub { font: 400 14px var(--font-body); fill: var(--muted); }
+  @media (max-width: 560px) { .label .sub { display: none; } .label .ttl { font-size: 22px; } }
+
+  .waves path { fill: none; stroke: var(--accent); stroke-width: 3; stroke-linecap: round; opacity: 0; }
+  .waves path { animation: wave 1.8s ease-out infinite; }
+  .waves path:nth-child(2) { animation-delay: .3s; } .waves path:nth-child(3) { animation-delay: .6s; }
+  @keyframes wave { 0% { opacity: 0; transform: translateY(-24px); } 30% { opacity: .9; } 100% { opacity: 0; transform: translateY(14px); } }
+  .waves { transition: opacity .3s; }
+  .exploded .waves { opacity: 0; }
+
+  /* Hervorhebung */
+  .label > * { transition: opacity .25s; }
+  svg.has-active .part:not(.is-active), svg.has-active .label:not(.is-active) > * { opacity: .22; }
+  .exploded.has-active .label.is-active .balloon { fill: var(--accent); stroke: var(--accent); }
+  .exploded.has-active .label.is-active .no { fill: var(--accent-ink); }
+
+  /* Stückliste */
+  aside { display: grid; gap: 16px; min-width: 0; }
+  .detail { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; min-height: 150px; }
+  .detail .eyebrow { font: 500 0.72rem var(--font-mono); color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+  .detail h2 { font: 700 1.4rem/1.15 var(--font-display); margin: 4px 0 8px; }
+  .detail p { margin: 0; max-width: 62ch; }
+  .flow { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; font: 500 0.8rem var(--font-mono); }
+  .flow li { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 2px 8px; }
+  .flow li + li::before { content: "→ "; color: var(--accent); }
+
+  .parts { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .parts li { border-bottom: 1px solid var(--line); }
+  .parts button {
+    all: unset; box-sizing: border-box; width: 100%; cursor: pointer;
+    display: grid; grid-template-columns: 2.2em minmax(0, 1fr); gap: 2px 10px; align-items: baseline;
+    padding: 9px 6px;
+  }
+  .parts .n { font: 500 0.8rem var(--font-mono); color: var(--muted); grid-row: span 2; }
+  .parts .t { font: 600 1.02rem var(--font-display); }
+  .parts .s { font-size: 0.86rem; color: var(--muted); }
+  .parts button:hover, .parts button.is-active { background: var(--surface); }
+  .parts button.is-active .n { color: var(--accent); }
+  .parts-head { font: 500 0.72rem var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 6px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .part, .exploded .part { transition-duration: .01ms; transition-delay: 0ms; }
+    .exploded .label { transition-delay: 0ms; }
+    .waves path { animation: none; opacity: .6; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Mikrofon zerlegt</h1>
+      <p class="lede">Ein dynamisches Gesangsmikrofon in seinen neun Bauteilen. Tippe ein Teil an, um zu sehen, was es macht.</p>
+    </div>
+    <div class="controls">
+      <button class="btn" id="toggle" type="button" aria-pressed="false">Zerlegen</button>
+      <label class="check"><input type="checkbox" id="loop"> Endlos abspielen</label>
+    </div>
+  </header>
+
+  <main>
+    <figure>
+      <svg id="fig" viewBox="0 0 680 1090" role="img" aria-labelledby="figTitle">
+        <title id="figTitle">Explosionsansicht eines dynamischen Mikrofons</title>
+        <defs>
+          <pattern id="mesh" width="9" height="9" patternUnits="userSpaceOnUse">
+            <rect width="9" height="9" class="f-steel" fill-opacity="0.18"/>
+            <path d="M0 0L9 9M9 0L0 9" class="s-dark" stroke-width="1.3"/>
+          </pattern>
+          <pattern id="foamtex" width="10" height="10" patternUnits="userSpaceOnUse">
+            <rect width="10" height="10" class="f-foam"/>
+            <circle cx="3" cy="3" r="1.6" class="f-foam-dot"/>
+            <circle cx="8" cy="7" r="1.2" class="f-foam-dot"/>
+          </pattern>
+          <linearGradient id="metal" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" style="stop-color: var(--steel-dark)"/>
+            <stop offset="0.35" style="stop-color: var(--steel-hi)"/>
+            <stop offset="0.6" style="stop-color: var(--steel)"/>
+            <stop offset="1" style="stop-color: var(--steel-dark)"/>
+          </linearGradient>
+        </defs>
+
+        <g class="waves" transform="translate(140 178)">
+          <path d="M160 52 Q200 34 240 52"/>
+          <path d="M150 34 Q200 12 250 34"/>
+          <path d="M140 16 Q200 -10 260 16"/>
+        </g>
+
+        <!-- Zeichenreihenfolge: hinten nach vorn -->
+        <g class="part" data-id="trafo" style="--ex:110; --ey:250; --de:200ms; --da:120ms">
+          <rect x="172" y="404" width="56" height="52" rx="2" class="f-magnet"/>
+          <path d="M172 414H228M172 424H228M172 436H228M172 446H228" class="s-rubber" stroke-width="1.5"/>
+          <rect x="188" y="398" width="24" height="64" rx="3" class="f-copper"/>
+          <path d="M188 404H212M188 410H212M188 416H212M188 422H212M188 428H212M188 434H212M188 440H212M188 446H212M188 452H212" class="s-copper" stroke-width="1.2"/>
+        </g>
+
+        <g class="part" data-id="gehaeuse" style="--ex:0; --ey:360; --de:60ms; --da:200ms">
+          <path d="M134 242H266L246 600H154Z" fill="url(#metal)" class="s-dark" stroke-width="2"/>
+          <rect x="132" y="242" width="136" height="18" rx="3" class="f-steel-dark"/>
+          <rect x="187" y="312" width="26" height="50" rx="13" class="f-gap"/>
+          <rect x="192" y="317" width="16" height="22" rx="8" class="f-accent"/>
+          <path d="M160 560H240" class="s-dark" stroke-width="2"/>
+        </g>
+
+        <g class="part" data-id="xlr" style="--ex:0; --ey:390; --de:0ms; --da:240ms">
+          <rect x="179" y="644" width="6" height="20" rx="2" class="f-steel-hi s-dark" stroke-width="1"/>
+          <rect x="197" y="644" width="6" height="20" rx="2" class="f-steel-hi s-dark" stroke-width="1"/>
+          <rect x="215" y="644" width="6" height="20" rx="2" class="f-steel-hi s-dark" stroke-width="1"/>
+          <rect x="156" y="600" width="88" height="46" rx="4" fill="url(#metal)" class="s-dark" stroke-width="2"/>
+          <path d="M156 614H244M156 632H244" class="s-dark" stroke-width="1.5"/>
+          <rect x="194" y="592" width="12" height="10" rx="2" class="f-steel-dark"/>
+        </g>
+
+        <g class="part" data-id="lagerung" style="--ex:0; --ey:327; --de:150ms; --da:60ms">
+          <rect x="140" y="228" width="120" height="16" rx="7" class="f-rubber"/>
+          <path d="M152 230V242M164 230V242M176 230V242M188 230V242M200 230V242M212 230V242M224 230V242M236 230V242M248 230V242" class="s-rubber" stroke-width="2"/>
+        </g>
+
+        <g class="part" data-id="magnet" style="--ex:0; --ey:302; --de:220ms; --da:40ms">
+          <rect x="150" y="176" width="100" height="50" rx="4" class="f-magnet"/>
+          <rect x="172" y="176" width="56" height="30" class="f-gap"/>
+          <rect x="182" y="176" width="36" height="30" class="f-pole"/>
+          <path d="M150 196H160M240 196H250" class="s-rubber" stroke-width="1.5"/>
+        </g>
+
+        <g class="part" data-id="spule" style="--ex:0; --ey:267; --de:260ms; --da:20ms">
+          <rect x="176" y="158" width="48" height="32" rx="2" class="f-copper"/>
+          <path d="M176 163H224M176 168H224M176 173H224M176 178H224M176 183H224" class="s-copper" stroke-width="1.4"/>
+        </g>
+
+        <g class="part" data-id="membran" style="--ex:0; --ey:243; --de:300ms; --da:0ms">
+          <ellipse cx="200" cy="152" rx="54" ry="7" fill="none" class="s-dark" stroke-width="2"/>
+          <path d="M150 152Q200 124 250 152Q200 160 150 152Z" class="f-membrane s-dark" stroke-width="1.2"/>
+        </g>
+
+        <g class="part" data-id="schaum" style="--ex:0; --ey:125; --de:120ms; --da:100ms">
+          <path d="M142 232V150A58 58 0 0 1 258 150V232Z" fill="url(#foamtex)"/>
+        </g>
+
+        <g class="part" data-id="korb" style="--ex:0; --ey:-50; --de:0ms; --da:160ms">
+          <path d="M130 240V150A70 80 0 0 1 270 150V240Z" fill="url(#mesh)" class="s-dark" stroke-width="3"/>
+          <path d="M131 150H269" class="s-dark" stroke-width="2"/>
+          <rect x="126" y="230" width="148" height="12" rx="3" class="f-steel-dark"/>
+        </g>
+
+        <g id="labels"></g>
+      </svg>
+      <figcaption><span>Dynamisches Tauchspulenmikrofon</span><span>Explosionsdarstellung · nicht maßstäblich</span></figcaption>
+    </figure>
+
+    <aside>
+      <div class="detail" id="detail" aria-live="polite"></div>
+      <div>
+        <p class="parts-head">Stückliste</p>
+        <ol class="parts" id="parts"></ol>
+      </div>
+    </aside>
+  </main>
+</div>
+
+<script>
+  // cy = Mitte des Teils in der Explosionsansicht, edge = rechte Kante (für die Hinweislinie)
+  const PARTS = [
+    { id: "korb", name: "Korbgitter", short: "Schützt die Kapsel vor Stößen", cy: 105, edge: 274,
+      long: "Das kugelige Drahtgitter aus Stahl schützt die empfindliche Kapsel, wenn das Mikrofon herunterfällt. Es ist so offen gewebt, dass der Schall fast ungehindert hindurchgeht." },
+    { id: "schaum", name: "Schaumstoff-Popschutz", short: "Bremst Atemstöße und Plosivlaute", cy: 286, edge: 258,
+      long: "Offenporiger Schaumstoff direkt unter dem Gitter. Er fängt Luftstöße bei „P“ und „B“ sowie Atemgeräusche ab, bevor sie die Membran treffen." },
+    { id: "membran", name: "Membran", short: "Schwingt mit den Schallwellen", cy: 393, edge: 252,
+      long: "Eine hauchdünne Kunststofffolie, nur wenige Mikrometer stark. Die Druckschwankungen der Schallwelle drücken sie vor und zurück, genau im Rhythmus der Stimme." },
+    { id: "spule", name: "Schwingspule", short: "Kupferdraht, fest an der Membran", cy: 441, edge: 224,
+      long: "Ein feiner Kupferdraht, zur Spule gewickelt und an die Membran geklebt. Sie bewegt sich mit der Membran im Luftspalt des Magneten. Dabei wird eine kleine Spannung induziert: das Audiosignal." },
+    { id: "magnet", name: "Topfmagnet", short: "Liefert das Magnetfeld", cy: 503, edge: 250,
+      long: "Ein Neodym-Magnet in einem Eisentopf. Zwischen Polkern und Topfrand liegt ein schmaler ringförmiger Luftspalt mit starkem Magnetfeld, in den die Schwingspule eintaucht." },
+    { id: "lagerung", name: "Gummi-Lagerung", short: "Dämpft Griffgeräusche", cy: 563, edge: 260,
+      long: "Ein elastischer Gummiring hält die ganze Kapsel. Er entkoppelt sie vom Gehäuse, damit Klopfen und Reiben an der Hand nicht als Rumpeln im Signal landen." },
+    { id: "trafo", name: "Übertrager", short: "Macht das Signal symmetrisch", cy: 680, edge: 338,
+      long: "Ein kleiner Transformator im Griff. Er passt die Impedanz der Spule an und liefert ein symmetrisches Signal, das auch über lange Kabel kaum Störungen aufnimmt." },
+    { id: "gehaeuse", name: "Gehäuse mit Schalter", short: "Griff aus Metall, Ein/Aus", cy: 781, edge: 256,
+      long: "Der Griff aus Zinkdruckguss schirmt die Elektronik gegen Brummen ab und gibt dem Mikrofon sein Gewicht. Der Schiebeschalter schließt den Ausgang kurz, um stummzuschalten." },
+    { id: "xlr", name: "XLR-Stecker", short: "3 Pole: Masse, +, −", cy: 1022, edge: 242,
+      long: "Der dreipolige Steckverbinder führt das Signal ins Kabel: Pin 1 ist Masse, Pin 2 trägt das Signal (+), Pin 3 dasselbe Signal invertiert (−). Das Mischpult zieht beide voneinander ab und löscht so Störungen aus." }
+  ];
+
+  const svg = document.getElementById("fig");
+  const NS = "http://www.w3.org/2000/svg";
+  const labelsG = document.getElementById("labels");
+  const list = document.getElementById("parts");
+  const detail = document.getElementById("detail");
+  const toggleBtn = document.getElementById("toggle");
+  const loopBox = document.getElementById("loop");
+
+  function el(tag, attrs, parent) {
+    const n = document.createElementNS(NS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+
+  PARTS.forEach((p, i) => {
+    const no = String(i + 1).padStart(2, "0");
+    p.no = no;
+    // SVG-Beschriftung
+    const g = el("g", { class: "label", "data-id": p.id }, labelsG);
+    el("line", { x1: p.edge + 10, y1: p.cy, x2: 379, y2: p.cy }, g);
+    el("circle", { class: "dot", cx: p.edge + 10, cy: p.cy, r: 3 }, g);
+    el("circle", { class: "balloon", cx: 392, cy: p.cy, r: 13 }, g);
+    el("text", { class: "no", x: 392, y: p.cy }, g).textContent = no;
+    el("text", { class: "ttl", x: 414, y: p.cy + 1 }, g).textContent = p.name;
+    el("text", { class: "sub", x: 414, y: p.cy + 20 }, g).textContent = p.short;
+    // Stückliste
+    const li = document.createElement("li");
+    li.innerHTML = `<button type="button" data-id="${p.id}"><span class="n">${no}</span><span class="t"></span><span class="s"></span></button>`;
+    li.querySelector(".t").textContent = p.name;
+    li.querySelector(".s").textContent = p.short;
+    list.appendChild(li);
+  });
+
+  const byId = Object.fromEntries(PARTS.map(p => [p.id, p]));
+  let exploded = false, pinned = "", loopTimer = null;
+
+  function setExploded(v) {
+    exploded = v;
+    svg.classList.toggle("exploded", v);
+    toggleBtn.textContent = v ? "Zusammenbauen" : "Zerlegen";
+    toggleBtn.setAttribute("aria-pressed", String(v));
+  }
+
+  function renderDetail(id) {
+    const p = byId[id];
+    if (!p) {
+      detail.innerHTML = `<div class="eyebrow">So entsteht das Signal</div>
+        <h2>Schall rein, Spannung raus</h2>
+        <p>Ein dynamisches Mikrofon arbeitet wie ein umgekehrter Lautsprecher und braucht keinen Strom. Tippe ein Bauteil an, um mehr zu erfahren.</p>
+        <ol class="flow"><li>Schall</li><li>Membran</li><li>Spule im Magnetfeld</li><li>Spannung</li><li>Übertrager</li><li>XLR</li></ol>`;
+      return;
+    }
+    detail.innerHTML = `<div class="eyebrow">Pos. ${p.no}</div><h2></h2><p></p>`;
+    detail.querySelector("h2").textContent = p.name;
+    detail.querySelector("p").textContent = p.long;
+  }
+
+  function setActive(id) {
+    svg.classList.toggle("has-active", !!id);
+    document.querySelectorAll("[data-id]").forEach(n => n.classList.toggle("is-active", n.dataset.id === id));
+    renderDetail(id);
+  }
+
+  function select(id) {
+    pinned = pinned === id ? "" : id;
+    if (pinned && !exploded) setExploded(true);
+    setActive(pinned);
+  }
+
+  // Interaktion: Zeichnung und Liste
+  function bindHover(container, selector) {
+    container.addEventListener("mouseover", e => {
+      const t = e.target.closest(selector);
+      if (t) setActive(t.dataset.id);
+    });
+    container.addEventListener("mouseleave", () => setActive(pinned));
+    container.addEventListener("click", e => {
+      const t = e.target.closest(selector);
+      if (t) select(t.dataset.id);
+    });
+  }
+  bindHover(svg, ".part, .label");
+  bindHover(list, "button");
+  list.addEventListener("focusin", e => { const b = e.target.closest("button"); if (b) setActive(b.dataset.id); });
+  list.addEventListener("focusout", () => setActive(pinned));
+
+  toggleBtn.addEventListener("click", () => {
+    setExploded(!exploded);
+    if (!exploded) { pinned = ""; setActive(""); }
+  });
+
+  loopBox.addEventListener("change", () => {
+    clearInterval(loopTimer);
+    if (loopBox.checked) {
+      pinned = ""; setActive("");
+      setExploded(!exploded);
+      loopTimer = setInterval(() => setExploded(!exploded), 3600);
+    }
+  });
+
+  renderDetail("");
+  // Beim Laden einmal zerlegen
+  setTimeout(() => setExploded(true), 700);
+</script>
+</body>
+</html>
